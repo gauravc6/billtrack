@@ -1,3 +1,11 @@
 {{ bill.supplier_name }}
-
-    
+<br>
+{% for product in products %}
+        {{product.product_name}}
+        {{product.product_pack}}
+        {{product.quantity}}
+        {{product.free_quantity}}
+        {{product.rate}}
+        {{product.mrp}}
+        <br>
+{% endfor %}
