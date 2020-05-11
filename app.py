@@ -1,4 +1,5 @@
 import os
+import datetime
 from flask import render_template, redirect, url_for
 from billtrack import app, db
 from billtrack.models import Bill, Product
@@ -17,10 +18,13 @@ def allbills():
 def addbill():
     form = BillForm()
     if form.validate_on_submit():
+        d, m, y = form.bill_date.data.split('/')
+        date = datetime.datetime(int(y), int(m), int(d))
         bill = Bill(invoice_number=form.invoice_number.data,
                     supplier_name=form.supplier_name.data,
                     bill_total=form.bill_total.data,
-                    bill_paid_status=form.bill_paid_status.data)
+                    bill_paid_status=form.bill_paid_status.data,
+                    bill_date = date)
         db.session.add(bill)
         db.session.commit()
         return redirect(url_for('bill_details',invoice_number=form.invoice_number.data))

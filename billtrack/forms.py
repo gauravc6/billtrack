@@ -8,6 +8,7 @@ class BillForm(FlaskForm):
     supplier_name = StringField('Supplier Name', validators=[DataRequired()])
     bill_total = FloatField('Bill total', validators=[DataRequired()])
     bill_paid_status = BooleanField('Bill Paid')
+    bill_date = StringField('Bill date')
     submit = SubmitField('Add bill')
 
 class ProductForm(FlaskForm):

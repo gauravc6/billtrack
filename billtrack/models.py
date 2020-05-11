@@ -10,6 +10,7 @@ class Bill(db.Model):
     supplier_name = db.Column(db.Text, nullable=False)
     bill_total = db.Column(db.Float, nullable=False)
     bill_paid_status = db.Column(db.Boolean, default=False)
+    bill_date = db.Column(db.Date, default=datetime.today())
 
     products = db.relationship('Product', backref='bill', lazy=True)
 
