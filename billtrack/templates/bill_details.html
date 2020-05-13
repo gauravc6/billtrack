@@ -1,4 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
 {{ bill.supplier_name }}
+{{bill.bill_date.strftime('%d/%m/%Y')}}
 <br>
 {% for product in products %}
         {{product.product_name}}
@@ -9,3 +12,4 @@
         {{product.mrp}}
         <br>
 {% endfor %}
+{% endblock %}
