@@ -1,16 +1,28 @@
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% for bill in bills %}
-        {{bill.supplier_name}}
-        {{bill.invoice_number}}
-        {{bill.bill_total}}
-        {{bill.bill_paid_status}}
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        {% for bill in bills %}
+        <div class="card">
+            <a href="{{url_for('bill_details', invoice_number=bill.invoice_number)}}">
+                <h5 class="card-header">{{bill.invoice_number}}</h5>
+            </a>
+            <div class="card-body">
+            <h5 class="card-title">Supplier: {{bill.supplier_name}}</h5>
+            <p class="card-text">Bill total: Rs. {{bill.bill_total}}
+                <br>
+                Bill date: {{bill.bill_date.strftime('%d/%m/%Y')}}
+                <br>
+                Bill paid: {% if bill.bill_paid_status %}
+                <font color="#00ff00">Yes</font>
+                {% else %}
+                <font color="#ff0000">No</font>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <br>
     {% endfor %}
-</body>
-</html>
+</div>
+</div>
+{% endblock %}
