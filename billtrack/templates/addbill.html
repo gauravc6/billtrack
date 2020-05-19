@@ -1,20 +1,20 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-<form method="post">
-    {{form.hidden_tag()}}
-    {{form.invoice_number.label}} {{form.invoice_number()}}
-    {{form.supplier_name.label}} {{form.supplier_name()}}
-    {{form.bill_total.label}} {{form.bill_total()}}
-    {{form.bill_date.label}} {{form.bill_date()}}
-    {{form.bill_paid_status.label}} {{form.bill_paid_status()}}
-    {{form.submit()}}
-</form>
-    
-</body>
-</html>
+{% extends "base.html"%}
+{% block content %}
+<div class="container jumbotron">
+    <h2>Add a new bill ...</h2>
+    <form method="post">
+        {{form.hidden_tag()}}
+        {{form.supplier_name.label}}
 
+        {{form.supplier_name(class="form-control")}}
+
+        {{form.bill_date.label}} {{form.bill_date(class="form-control")}}
+
+        {{form.invoice_number.label}} {{form.invoice_number(class="form-control")}}
+        {{form.bill_total.label}} {{form.bill_total(class="form-control")}}
+        {{form.bill_paid_status.label}} {{form.bill_paid_status()}}
+        <br>
+        {{form.submit(class="text-center btn btn-primary")}}
+    </form>
+</div>
+{% endblock %}

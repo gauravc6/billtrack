@@ -1,11 +1,58 @@
-<form method="post">
-    {{form.hidden_tag()}}
-    {{form.product_name.label}} {{form.product_name()}}
-    {{form.product_pack.label}} {{form.product_pack()}}
-    {{form.quantity.label}} {{form.quantity()}}
-    {{form.free_quantity.label}} {{form.free_quantity()}}
-    {{form.mrp.label}} {{form.mrp()}}
-    {{form.rate.label}} {{form.rate()}}
-    {{form.submit()}}
-</form>
+{% extends "base.html"%}
+{% block content %}
+<div class="container jumbotron">
+    <h2>Adding product to invoice</h2>
+    <br>
+    <form method="post">
+        {{form.hidden_tag()}}
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Invoice number</label>
+            <div class="col-sm-10">
+              <input type="text" readonly class="form-control-plaintext" value="{{invoice_number}}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{form.product_name.label}}</label>
+            <div class="col-sm-10">
+                {{form.product_name(class="form-control")}}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> {{form.product_pack.label}}</label>
+            <div class="col-sm-10">
+                {{form.product_pack(class="form-control")}}
+            </div>
+        </div>
 
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{form.mrp.label}}</label>
+            <div class="col-sm-10">
+                {{form.mrp(class="form-control")}}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{form.rate.label}}</label>
+            <div class="col-sm-10">
+                {{form.rate(class="form-control")}}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{form.quantity.label}}</label>
+            <div class="col-sm-10">
+                {{form.quantity(class="form-control")}}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{form.free_quantity.label}}</label>
+            <div class="col-sm-10">
+                {{form.free_quantity(class="form-control")}}
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10 offset-sm-2">
+                {{form.submit(class="btn btn-primary")}}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

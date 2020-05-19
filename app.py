@@ -51,7 +51,7 @@ def addproduct(invoice_number):
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('bill_details', invoice_number=invoice_number))
-    return render_template('addproduct.html', form=form)
+    return render_template('addproduct.html', form=form, invoice_number=invoice_number)
 
 
 if __name__ == "__main__":
