@@ -1,15 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-{{ bill.supplier_name }}
-{{bill.bill_date.strftime('%d/%m/%Y')}}
-<br>
-{% for product in products %}
-        {{product.product_name}}
-        {{product.product_pack}}
-        {{product.quantity}}
-        {{product.free_quantity}}
-        {{product.rate}}
-        {{product.mrp}}
-        <br>
-{% endfor %}
+<div class="jumbotron container">
+        <h2>Bill invoice number: {{bill.invoice_number}}</h2>
+        <h4>Supplier Name: {{bill.supplier_name}}
+                <br>
+                Bill total: Rs. {{bill.bill_total}}
+                <br>
+                Bill date: {{bill.bill_date.strftime('%d/%m/%Y')}}
+                <br>
+                Paid: {% if bill.bill_paid_status %}
+                <font color="#00ff00">Yes</font>
+                {% else %}
+                <font color="#ff0000">No</font>
+                {% endif %}
+        </h4>
+        <div class="text-right"><a href="{{url_for('addproduct', invoice_number=bill.invoice_number)}}"
+                        class="btn btn-primary">Add product</a></div>
+</div>
+<div class="container">
+        <table class="table table-striped">
+                <thead>
+                        <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Product Pack</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Free Quantity</th>
+                                <th scope="col">MRP</th>
+                                <th scope="col">Rate</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for product in products -%}
+                        <tr>
+                                <th>{{loop.index}}</th>
+                                <td>{{product.product_name}}</td>
+                                <td>{{product.product_pack}}</td>
+                                <td>{{product.quantity}}</td>
+                                <td>{{product.free_quantity}}</td>
+                                <td>{{product.mrp}}</td>
+                                <td>{{product.rate}}</td>
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+</div>
 {% endblock %}
