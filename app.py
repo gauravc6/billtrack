@@ -12,12 +12,15 @@ def index():
 @app.route('/allbills')
 def allbills():
     bills = Bill.query.all()
-    return render_template('allbills.html', bills=bills)
+    return render_template('all_bills.html', bills=bills)
 
 @app.route('/addbill', methods=['POST', 'GET'])
 def addbill():
     form = BillForm()
     if form.validate_on_submit():
+        bill = Bill.query.filter_by(invoice_number=form.invoice_number.data).first()
+        if bill:
+            return render_template('bill_exists.html',invoice_number=form.invoice_number.data)
         d, m, y = form.bill_date.data.split('/')
         date = datetime.datetime(int(y), int(m), int(d))
         bill = Bill(invoice_number=form.invoice_number.data,
@@ -28,15 +31,25 @@ def addbill():
         db.session.add(bill)
         db.session.commit()
         return redirect(url_for('bill_details',invoice_number=form.invoice_number.data))
-    return render_template('addbill.html', form=form)
+    return render_template('add_bill.html', form=form)
 
-@app.route('/<invoice_number>')
+@app.route('/bill/<invoice_number>')
 def bill_details(invoice_number):
     bill = Bill.query.filter_by(invoice_number=invoice_number).first_or_404()
     products = Product.query.filter_by(bill_id=bill.id).all()
     return render_template('bill_details.html', bill=bill, products=products)
 
-@app.route('/<invoice_number>/addproduct', methods=['GET', 'POST'])
+@app.route('/bill/<invoice_number>/editbill', methods=['GET', 'POST'])
+def editbill(invoice_number):
+    # TODO: Complete edit bill route
+    pass
+
+@app.route('/bill/<invoice_number>/deletebill', methods=['GET', 'POST'])
+def deletebill(invoice_number):
+    # TODO: Complete delete bill route
+    pass
+
+@app.route('/bill/<invoice_number>/addproduct', methods=['GET', 'POST'])
 def addproduct(invoice_number):
     form = ProductForm()
     if form.validate_on_submit():
@@ -51,7 +64,7 @@ def addproduct(invoice_number):
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('bill_details', invoice_number=invoice_number))
-    return render_template('addproduct.html', form=form, invoice_number=invoice_number)
+    return render_template('add_product.html', form=form, invoice_number=invoice_number)
 
 
 if __name__ == "__main__":

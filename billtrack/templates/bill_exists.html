@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container jumbotron"><h1>Bill already exists.</h1>
+<a href="{{url_for('bill_details',invoice_number=invoice_number)}}" class="btn btn-primary">Go to bill</a></div>
+{% endblock %}
