@@ -1,42 +1,208 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>billtrack</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{url_for('index')}}">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('addbill')}}">New bill</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('allbills')}}">All bills</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    {% block content %}
-    {% endblock %}
-</body>
-
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Bill Tracker</title>
+      <link id="TitleLogo" rel="icon" type="image/png" href="{{url_for('static', filename = 'TitleLogo.png')}}" sizes="64x64">
+      <link rel="stylesheet" href="{{url_for('static', filename = 'Base_CSS.css')}}">
+      <script src="{{url_for('static', filename = 'jquery-3.4.1.js')}}"></script>
+      <script src="{{url_for('static', filename = 'jquery-ui.js')}}"></script>
+      <script src="{{url_for('base_js')}}"></script><!--
+      PLEASE DO NOT ACTIVATE BOOTSTRAP CSS OR JS. THIS INTERFERES BADLY WITH
+      UI AND OTHER ELEMENTS. DO USE YOUR OWN JC OR CSS IF IT IS REQUIRED!
+      <link rel="stylesheet" href="{{url_for('static', filename = 'bootstrap.min.css')}}">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>-->
+   </head>
+   <body>
+      <!--Top-GlassLayer: Is the top-most layer, below which
+      all other content resides. Used to provide some added
+      functionality/features like night-light effect.
+      Night-light effect is different than night-mode.
+      Similar to ASUS's eye-care mode.
+      It's a layer between user and MainPage.-->
+      <div id = "Top-GlassLayer" class = "MasterLayer"></div>
+      <!--MainBGPage: This is Main/BG/Master div.
+      Will be able to control all sub pages directly, iff
+      they don't have their own properties.-->
+      <div id = "MainBGPage" class = "MasterLayer">
+         <!--Top-navbar: It's a bar (usually sitting at the
+         top of the page). It shows (either or both) URL
+         and (or) hierarchy and (or) other stuff like
+         progress bar or day-night switch or anything else
+         like settings or so.-->
+         <div id = "Top-navbar">
+            <table>
+               <tr>
+                  <td id = "Logo"><img src="{{url_for('static', filename = 'Login3.png')}}" alt="LOGO" /></td>
+                  <td id = "Name"><B><U>HOSPITAL NAME</U></B><BR />Some general description</td>
+                  <!--UPDATE INVOICE NUMBER OF SELECTED BILL HERE (IF SELECTED)-->
+                  <td id = "InvoiceNumber">INVOICE NUMBER: XXX XXX XXX</td>
+                  <td id = "E_M"></td>
+                  <td id = "Home" class = "ClickableTab"><img src="{{url_for('static', filename = 'Home.png')}}" alt="H"/></td>
+                  <td id = "DaySwitch" class = "ClickableTab"><img src="{{url_for('static', filename = 'DaySwitch.png')}}" alt="D"/></td>
+                  <td id = "NightSwitch" class = "ClickableTab"><img src="{{url_for('static', filename = 'NightSwitch.png')}}" alt="N"/></td>
+                  <td id = "NightLightSwitch_E" class = "ClickableTab"><img src="{{url_for('static', filename = 'EyeCareSwitch_E.png')}}" alt="E"/></td>
+                  <td id = "NightLightSwitch_D" class = "ClickableTab"><img src="{{url_for('static', filename = 'EyeCareSwitch_D.png')}}" alt="D"/></td>
+                  <td id = "E_R"></td>
+               </tr>
+            </table>
+         </div>
+         <!--Body-Content-Box: Contains all main content of
+         the page. Is customisable and extensible.-->
+         <div id = "Body-Content-Box">
+            <!--SideBar: A quick referrence/option bar
+            to navigate to various parts of the page.
+            Located to the left of page. Usually collapsed.
+            When clicked, will expand itself, compressing
+            the main page by some amount then will overlap
+            it.
+            Collapses in 2 conditions:
+            1. Clicked anywhere, instead of box.
+            2. When mouse pointer outside the active region
+            of the box for more than 3 seconds.
+            
+            Reacts to position of mouse when over it by
+            tilting and buldging towards the pointer, away
+            from itself.-->
+            <div id = "SideBar">
+               <div id = "DockedDisplayMode">
+                  <table>
+                     <tr id = "TR_Hr">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "Hour" class = "DockedDisplayVisibleColumn DockedDisplayVisibleColumnBG">12</td>
+                     </tr>
+                     <tr id = "TR_Min">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "Minute" class = "DockedDisplayVisibleColumn DockedDisplayVisibleColumnBG">00</td>
+                     </tr>
+                     <tr id = "TR_APM">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "APM" class = "DockedDisplayVisibleColumn DockedDisplayVisibleColumnBG">AM</td>
+                     </tr>
+                     <tr id = "TR_AllBills">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "AllBills" class = "DockedDisplayVisibleColumn ClickableTab">All<BR />Bill(s)</td>
+                     </tr>
+                     <tr id = "TR_AddBills">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "AddBills" class = "DockedDisplayVisibleColumn ClickableTab">Add<BR />Bill(s)</td>
+                     </tr>
+                     <tr id = "TR_Date">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "Date" class = "DockedDisplayVisibleColumn DockedDisplayVisibleColumnBG">01</td>
+                     </tr>
+                     <tr id = "TR_Day">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "Day" class = "DockedDisplayVisibleColumn DockedDisplayVisibleColumnBG">SUNDAY</td>
+                     </tr>
+                     <tr id = "TR_Year">
+                        <td class = "DockedDisplayHiddenColumn"></td>
+                        <td id = "Year" class = "DockedDisplayVisibleColumn DockedDisplayVisibleColumnBG">2020</td>
+                     </tr>
+                  </table>
+               </div>
+               <div id = "UnDockedDisplayMode">
+                  <table>
+                     <tr id = "TR_Time">
+                        <td id = "Time">88:88:88 AM</td>
+                     </tr>
+                     <tr id = "TR_CompleteDate">
+                        <td id = "CompleteDate">SUNDAY<BR />JANUARY 01<BR />2020</td>
+                     </tr>
+                     <tr id = "TR_ER_1">
+                        <td id = "ER_1"></td>
+                     </tr>
+                     <tr id = "TR_Home">
+                        <td id = "Home" class = "ClickableTab">Home</td>
+                     </tr>
+                     <tr id = "TR_AllBills">
+                        <td id = "AllBills" class = "ClickableTab">All Bill(s)</td>
+                     </tr>
+                     <tr id = "TR_AddBills">
+                        <td id = "AddBills" class = "ClickableTab">Add Bill(s)</td>
+                     </tr>
+                     <tr id = "TR_Settings">
+                        <td id = "Settings" class = "ClickableTab">Settings</td>
+                     </tr>
+                     <tr id = "TR_ER_2">
+                        <td id = "ER_2"></td>
+                     </tr>
+                     <tr id = "TR_Timer">
+                        <td id = "Timer">8</td>
+                     </tr>
+                  </table>
+               </div>
+            </div>
+            <!--MainPage: Customisable content-based page.
+            Works in collaboration with SideBar to give a
+            cool look and feel, without compromising the
+            simplicity and clean, clutter-free look.
+            Located at middle or a bit right side of the
+            page.-->
+            <div id = "MainPage">
+               {% block content %}
+               {% endblock %}
+            </div>
+            <!--NotificationBar: Shows a notification/error
+            message in clean clutter-free way with a
+            simplistic, yet powerful, intuitive look and
+            feel, somewhat similar to windows notifications,
+            and Apple UX.
+            Located at bottom-right side of page, just above
+            Bottom-navbar.--><!--DUE TO SOME PROBLEMS,
+               THE NOTIFICATION BAR IS NOT WORKING.
+               WILL BE ENABLED WHEN THE PROBLEM IS FIXED.
+            <div id = "NotificationBar">
+               <table id = "Table_PNotificationOptions">
+                  <tr id = "TR_PNotificationOptions">
+                     <td id = "PNotificationOptionsTitle">NOTIFICATION</td>
+                     <td id = "PNotificationOptions_Close">X</td>
+                  </tr>
+               </table>
+               <table id = "Table_NotificationDetails">
+                  <tr id = "TR_NotificationTitle">
+                     <td id = "NotificationTiltle">ERROR: Some Notification title.</td>
+                  </tr>
+                  <tr id = "TR_NotificationDetails">
+                     <td id = "NotificationDetails">Complete notification details in multiple lines.<BR />
+                        This is another line for notification. <BR />
+                        This is another one, yep, this is again.<BR />
+                        Yet another line, just to annoy you!<BR />
+                        Annoyed? HAHA!<BR />
+                        Bye!
+                     </td>
+                  </tr>
+               </table>
+               <table id = "Table_SNotificationOptions">
+                  <tr id = "TR_SNotificationOptions">
+                     <td id = "SNotificationOptions_E_1">E</td>
+                     <td id = "SNotificationOptions_Check">Check</td>
+                     <td id = "SNotificationOptions_E_2">E</td>
+                     <td id = "SNotificationOptions_Close">Close</td>
+                     <td id = "SNotificationOptions_E_3">E</td>
+                  </tr>
+               </table>
+            </div>
+         </div>-->
+         <!--Bottom-navbar: Located at bottom. Contains
+         some information about page and might contain
+         some special features that can only be added
+         at the end of page. Max-height: one line.-->
+         <div id = "Bottom-navbar">
+            <table>
+               <tr>
+                  <td id = "E_L"></td>
+                  <td id = "Info_1">Open-Source project</td>
+                  <td id = "Info_2">Updated on TUE MAY 26, 2020: 10:00 GMT +5:30 (IST)</td>
+                  <td id = "Info_3">GitHub: gauravc6/billtrack</td>
+                  <td id = "E_R"></td>
+               </tr>
+            </table>
+         </div>
+      </div>
+   </body>
 </html>
