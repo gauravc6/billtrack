@@ -9,13 +9,13 @@ from billtrack.forms import BillForm, ProductForm
 def index():
     return render_template('index.html')
 
-@app.route('/allbills')
-def allbills():
+@app.route('/all_bills', methods=['POST', 'GET'])
+def all_bills():
     bills = Bill.query.all()
     return render_template('all_bills.html', bills=bills)
 
-@app.route('/addbill', methods=['POST', 'GET'])
-def addbill():
+@app.route('/add_bill', methods=['POST', 'GET'])
+def add_bill():
     form = BillForm()
     if form.validate_on_submit():
         bill = Bill.query.filter_by(invoice_number=form.invoice_number.data).first()
@@ -40,17 +40,17 @@ def bill_details(invoice_number):
     return render_template('bill_details.html', bill=bill, products=products)
 
 @app.route('/bill/<invoice_number>/editbill', methods=['GET', 'POST'])
-def editbill(invoice_number):
+def edit_bill(invoice_number):
     # TODO: Complete edit bill route
     pass
 
 @app.route('/bill/<invoice_number>/deletebill', methods=['GET', 'POST'])
-def deletebill(invoice_number):
+def delete_bill(invoice_number):
     # TODO: Complete delete bill route
     pass
 
-@app.route('/bill/<invoice_number>/addproduct', methods=['GET', 'POST'])
-def addproduct(invoice_number):
+@app.route('/bill/<invoice_number>/add_product', methods=['GET', 'POST'])
+def add_product(invoice_number):
     form = ProductForm()
     if form.validate_on_submit():
         bill = Bill.query.filter_by(invoice_number=invoice_number).first()
