@@ -19,3 +19,8 @@ class ProductForm(FlaskForm):
     mrp = FloatField('MRP', validators=[DataRequired()])
     rate = FloatField('Rate', validators=[DataRequired()])
     submit = SubmitField('Add product')
+
+class SearchForm(FlaskForm):
+    search_text = StringField('Search')
+    paid_check = BooleanField('Paid')
+    submit = SubmitField('Search')

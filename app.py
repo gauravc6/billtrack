@@ -3,7 +3,7 @@ import datetime
 from flask import render_template, redirect, url_for
 from billtrack import app, db
 from billtrack.models import Bill, Product
-from billtrack.forms import BillForm, ProductForm
+from billtrack.forms import BillForm, ProductForm, SearchForm
 
 @app.route('/')
 def index():
@@ -12,7 +12,11 @@ def index():
 @app.route('/all_bills', methods=['POST', 'GET'])
 def all_bills():
     bills = Bill.query.all()
-    return render_template('all_bills.html', bills=bills)
+    form = SearchForm()
+    bills = Bill.query.order_by(Bill.bill_date.desc()).all()
+    if form.validate_on_submit():
+        bills = Bill.query.filter(Bill.supplier_name.like(f"%{form.search_text.data}%")).filter_by(bill_paid_status=form.paid_check.data).order_by(Bill.bill_date.desc()).all()
+    return render_template('all_bills.html',form=form, bills=bills)
 
 @app.route('/add_bill', methods=['POST', 'GET'])
 def add_bill():

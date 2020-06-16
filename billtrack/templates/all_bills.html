@@ -2,27 +2,35 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
+        <form method="post">
+            {{form.hidden_tag()}}
+            {{form.search_text(class="form-control")}}
+            Paid: {{form.paid_check()}}
+            <br>
+            {{form.submit(class="btn btn-primary")}}
+            <a href="{{url_for('all_bills')}}" class="btn btn-secondary">Clear</a>
+        </form>
         {% for bill in bills %}
         <div class="card">
             <a href="{{url_for('bill_details', invoice_number=bill.invoice_number)}}">
                 <h5 class="card-header">{{bill.invoice_number}}</h5>
             </a>
             <div class="card-body">
-            <h5 class="card-title">Supplier: {{bill.supplier_name}}</h5>
-            <p class="card-text">Bill total: Rs. {{bill.bill_total}}
-                <br>
-                Bill date: {{bill.bill_date.strftime('%d/%m/%Y')}}
-                <br>
-                Bill paid: {% if bill.bill_paid_status %}
-                <font color="#00ff00">Yes</font>
-                {% else %}
-                <font color="#ff0000">No</font>
-                {% endif %}
-            </p>
+                <h5 class="card-title">Supplier: {{bill.supplier_name}}</h5>
+                <p class="card-text">Bill total: Rs. {{bill.bill_total}}
+                    <br>
+                    Bill date: {{bill.bill_date.strftime('%d/%m/%Y')}}
+                    <br>
+                    Bill paid: {% if bill.bill_paid_status %}
+                    <font color="#00ff00">Yes</font>
+                    {% else %}
+                    <font color="#ff0000">No</font>
+                    {% endif %}
+                </p>
+            </div>
         </div>
+        <br>
+        {% endfor %}
     </div>
-    <br>
-    {% endfor %}
-</div>
 </div>
 {% endblock %}
