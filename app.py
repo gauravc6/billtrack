@@ -44,14 +44,18 @@ def bill_details(invoice_number):
     return render_template('bill_details.html', bill=bill, products=products)
 
 @app.route('/bill/<invoice_number>/editbill', methods=['GET', 'POST'])
-def edit_bill(invoice_number):
-    # TODO: Complete edit bill route
-    pass
+def mark_as_paid(invoice_number):
+    bill = Bill.query.filter_by(invoice_number=invoice_number).first_or_404()
+    bill.bill_paid_status = True
+    db.session.commit()
+    return redirect(url_for('bill_details', invoice_number=invoice_number))
 
 @app.route('/bill/<invoice_number>/deletebill', methods=['GET', 'POST'])
 def delete_bill(invoice_number):
-    # TODO: Complete delete bill route
-    pass
+    bill = Bill.query.filter_by(invoice_number=invoice_number).first_or_404()
+    db.session.delete(bill)
+    db.session.commit()
+    return redirect(url_for('all_bills'))
 
 @app.route('/bill/<invoice_number>/add_product', methods=['GET', 'POST'])
 def add_product(invoice_number):

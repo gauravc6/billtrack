@@ -14,7 +14,11 @@
                 <font color="#ff0000">No</font>
                 {% endif %}
         </h4>
-        <div class="text-right"><a href="{{url_for('add_product', invoice_number=bill.invoice_number)}}"
+        <div class="text-right">
+                <a href="{{url_for('delete_bill', invoice_number=bill.invoice_number)}}" class="btn btn-danger">Delete bill</a>
+                {% if not bill.bill_paid_status %}
+                <a href="{{url_for('mark_as_paid', invoice_number=bill.invoice_number)}}" class="btn btn-success">Mark as paid</a>
+                {% endif %}<a href="{{url_for('add_product', invoice_number=bill.invoice_number)}}"
                         class="btn btn-primary">Add product</a></div>
 </div>
 <div class="container">

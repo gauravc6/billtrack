@@ -12,7 +12,7 @@ class Bill(db.Model):
     bill_paid_status = db.Column(db.Boolean, default=False)
     bill_date = db.Column(db.Date, default=datetime.today())
 
-    products = db.relationship('Product', backref='bill', lazy=True)
+    products = db.relationship('Product', backref='bill', lazy=True, cascade='all, delete-orphan')
 
 class Product(db.Model):
 
